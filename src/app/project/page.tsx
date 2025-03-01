@@ -12,7 +12,6 @@ import Markdown from "react-markdown";
 const BLUR_FADE_DELAY = 0.04;
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import Particles from "@/components/ui/particles";
 import { createSwapy } from "swapy";
 
 export default function Page() {
@@ -89,13 +88,6 @@ export default function Page() {
         </div>
       </section>
 
-      <Particles
-        className="absolute inset-0 -z-10 h-[130vh]  w-full"
-        quantity={1500}
-        ease={30}
-        color={color}
-        refresh
-      />
     </main>
   );
 }
