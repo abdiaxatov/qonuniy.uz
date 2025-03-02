@@ -1,17 +1,18 @@
-// Add this at the top of your file to ensure the component is treated as client-side
 "use client";
 
 import Navbar from "@/components/navbar";
+import Header from "@/components/header";
 import Speed from "@/components/Speed";
 import CustomCursor from "@/components/CustomCursor";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { DATA } from "@/data/resume";
+// import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { motion, useScroll } from "framer-motion";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -29,11 +30,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/Qonuniy.png" />
       </head>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased ",
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
       >
@@ -43,7 +44,12 @@ export default function RootLayout({
         />
         <ThemeProvider attribute="class" defaultTheme="light">
           <TooltipProvider delayDuration={0}>
-            {children}
+            <div className="fixed top-0 left-0 right-0 z-50 h-16">
+              <Header />
+            </div>
+            <div className="pt-16">
+              {children}
+            </div>
             <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto mb-4 flex origin-bottom h-full max-h-14 items-center gap-20 justify-center">
               <Navbar />
               <Speed />

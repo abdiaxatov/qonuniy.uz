@@ -163,11 +163,11 @@ body::-webkit-scrollbar-thumb {
 
 @layer utilities {
   .custom-box-shadow {
-    box-shadow: 0 0 0 0px #0c2f75, 0 2px 4px #0c2f7589, 0 12px 24px #0c2f7559;
+    box-shadow: 0 0 0 0px #0099b5, 0 2px 4px #0099b589, 0 12px 24px #0099b559;
     transition: all 0.3s ease-in-out;
   }
   .custom-box-shadow1{
-    box-shadow: 0 0 0 0px #0c2f7596, 0 2px 4px #0c2f7596, 0 12px 24px #0c2f7596;
+    box-shadow: 0 0 0 0px #0099b596, 0 2px 4px #0099b596, 0 12px 24px #0099b596;
   }
 
 
@@ -178,7 +178,7 @@ body::-webkit-scrollbar-thumb {
 
 .MuiButtonBase-root {
   border-radius: 6px !important;
-  @apply z-50 pointer-events-auto relative mx-auto flex items-center px-1 bg-background shadow-2xl custom-box-shadow transform-gpu text-[#0c2f75] !important;
+  @apply z-50 pointer-events-auto relative mx-auto flex items-center px-1 bg-background shadow-2xl custom-box-shadow transform-gpu text-[#0099b5] !important;
 
   /* Apply dark mode classes directly */
   @apply dark:text-white !important;
@@ -221,11 +221,11 @@ body::-webkit-scrollbar-thumb {
   left: 0;
   right: 0;
   height: 4px;
-  @apply dark:bg-white bg-gray-800; 
+  @apply dark:bg-white bg-[#0099b5]; 
   transform-origin: 0%;
   z-index: 100;
 }
 #SpeedDialbasicexample{
-  background: #0c2f75 !important;
+  background: #0099b5 !important;
 
 }

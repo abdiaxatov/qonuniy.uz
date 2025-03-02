@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     <div className="h-full">
       <div className="fixed bottom-0 inset-x-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background"></div>
-      <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-1 bg-background shadow-2xl [box-shadow:0_0_0_0px_#0c2f75,0_2px_8px_#0c2f7589,0_12px_24px_#0c2f7559] transform-gpu text-[#0c2f75] border-none"      >
+      <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-1 bg-background shadow-2xl [box-shadow:0_0_0_0px_#0099b5,0_2px_8px_#0099b589,0_12px_24px_#0099b559] transform-gpu text-[#0099b5] border-none"      >
         {/* Navbar Items */}
         {DATA.navbar.map((item) => (
           <DockIcon key={item.href}>

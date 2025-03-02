@@ -16,7 +16,7 @@ const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: "#0c2f75", // ✅ Tooltip fonini o'zgartirish
+          backgroundColor: "#0099b5", // ✅ Tooltip fonini o'zgartirish
           color: "#fff",
           fontSize: "14px",
           borderRadius: "8px",
