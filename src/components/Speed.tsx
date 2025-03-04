@@ -9,14 +9,18 @@ import Tooltip from "@mui/material/Tooltip";
 import Telegram from "@mui/icons-material/Telegram";
 import Email from "@mui/icons-material/Email";
 import Phone from "@mui/icons-material/Phone";
-import DescriptionIcon from "@mui/icons-material/Description";
+import Person from "@mui/icons-material/Person";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
 
 const theme = createTheme({
   components: {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: "#0099b5", // ✅ Tooltip fonini o'zgartirish
+          backgroundColor: "#0099b5",
           color: "#fff",
           fontSize: "14px",
           borderRadius: "8px",
@@ -28,21 +32,38 @@ const theme = createTheme({
 });
 
 const actions = [
-  { icon: <DescriptionIcon />, name: "Resume", url: "https://drive.google.com/file/d/1fr9q57wh8L3GBhwjxCphjvv6bCFYbjQn/view" },
+  { icon: <Person />, name: "Portfolio" },
   { icon: <Telegram />, name: "Telegram", url: "https://t.me/Abdiaxatov" },
   { icon: <Email />, name: "Email", url: "mailto:abduaxatov007@gmail.com" },
-  { icon: <Phone />, name: "Phone", url: "tel:+998940192117" },
+  { icon: <Phone />, name: "Telefon", url: "tel:+998940192117" },
 ];
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
 
 export default function CustomSpeedDial() {
   const [isVisible, setIsVisible] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  // Bosish orqali visibilityni o'zgartirish
+  const handleOpen = () => setIsModalOpen(true);
+  const handleClose = () => setIsModalOpen(false);
+
   const handleClick = () => {
     setIsVisible((prev) => !prev);
   };
 
-  // Faylni yuklash
   const handleDownload = (url: string) => {
     const link = document.createElement("a");
     link.href = url;
@@ -52,7 +73,6 @@ export default function CustomSpeedDial() {
     document.body.removeChild(link);
   };
 
-  // Boshqa joyga bosganda `SpeedDial`ni yopish
   const handleOutsideClick = (e: MouseEvent) => {
     const speedDialElement = document.querySelector(".MuiSpeedDial-root");
     if (speedDialElement && !speedDialElement.contains(e.target as Node)) {
@@ -82,7 +102,7 @@ export default function CustomSpeedDial() {
               <SpeedDialAction
                 key={action.name}
                 icon={action.icon}
-               tooltipTitle={<Tooltip title={action.name}><span>{action.name}</span></Tooltip>}
+                tooltipTitle={<Tooltip title={action.name}><span>{action.name}</span></Tooltip>}
                 sx={{
                   visibility: isVisible ? "visible" : "hidden",
                   opacity: isVisible ? 1 : 0,
@@ -90,9 +110,9 @@ export default function CustomSpeedDial() {
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (action.name === "Resume") {
-                    handleDownload(action.url);
-                  } else {
+                  if (action.name === "Portfolio") {
+                    handleOpen();
+                  } else if (action.url) {
                     window.open(action.url, "_blank");
                   }
                 }}
@@ -100,6 +120,20 @@ export default function CustomSpeedDial() {
             ))}
           </SpeedDial>
         </Box>
+        <Modal open={isModalOpen} onClose={handleClose} >
+          <Box sx={style} className="rounded-xl border-none">
+            <Avatar alt="Profil rasmi" src="/profile.jpg" sx={{ width: 80, height: 80, mb: 2 }} />
+            <Typography variant="h6" component="h2">
+              Abdiaxatov
+            </Typography>
+            <Typography sx={{ mt: 2 }}>
+              Frontend va backend texnologiyalarda tajribaga ega Full Stack dasturchi.
+            </Typography>
+            <Button onClick={handleClose} sx={{ mt: 2 }} variant="contained" color="primary">
+              Close
+            </Button>
+          </Box>
+        </Modal>
       </div>
     </ThemeProvider>
   );

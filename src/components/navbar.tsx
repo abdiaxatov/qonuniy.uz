@@ -51,7 +51,7 @@ export default function Navbar() {
           </DockIcon>
         ))}
 
-        <Separator orientation="vertical" className="h-full" />
+        <Separator orientation="vertical" className="h-full " />
 
         {/* Social Media Icons */}
         {Object.entries(DATA.contact.social)

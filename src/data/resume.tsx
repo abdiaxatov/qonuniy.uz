@@ -45,22 +45,33 @@ export const DATA = {
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
-    { href: "/blog", icon: NotebookIcon, label: "Blog" },
+    // { href: "/blog", icon: NotebookIcon, label: "Blog" },
     { href: "/project", icon: Icons.Projects, label: "Projects" },
   ],
   contact: {
     social: {
-      GitHub: {
-        name: "GitHub",
+      Instagram: {
+        name: "Instagram",
         url: "https://github.com/nurbekabdiaxatov",
-        icon: Icons.github,
+        icon: Icons.Instagram,
         navbar: true,
       },
-      LinkedIn: {
-        name: "LinkedIn",
+      Youtube: {
+        name: "Youtube",
         url: "https://www.linkedin.com/in/nurbekabdiaxatov",
-        icon: Icons.linkedin,
-
+        icon: Icons.youtube,
+        navbar: true,
+      },
+      Facebook: {
+        name: "Facebook",
+        url: "https://www.linkedin.com/in/nurbekabdiaxatov",
+        icon: Icons.Facebook,
+        navbar: true,
+      },
+      X: {
+        name: "X",
+        url: "https://www.linkedin.com/in/nurbekabdiaxatov",
+        icon: Icons.X,
         navbar: true,
       },
       tel: {
