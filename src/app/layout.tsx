@@ -42,7 +42,7 @@ export default function RootLayout({
     const checkRoute = async () => {
       try {
         // Add your valid routes here
-        const validRoutes = ["/", "/about", "/contact", "/services", "/blog"]
+        const validRoutes = ["/", "/project", "/contact", "/services", "/blog"]
 
         // If the pathname is not in validRoutes and not a dynamic route
         // (you may need to adjust this logic based on your app's routes)
