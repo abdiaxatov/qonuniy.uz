@@ -60,7 +60,7 @@ export default function Header() {
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" passHref>
-            <Image src="/Qonuniy.png" alt="Logo" width={60} height={60} className="md:w-20 md:h-20" />
+            <Image src="/Qonuniy.svg" alt="Logo" width={65} height={65} className="md:w-20 md:h-20" />
           </Link>
         </div>
 

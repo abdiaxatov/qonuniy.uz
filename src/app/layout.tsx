@@ -70,7 +70,7 @@ export default function RootLayout({
   // 404 Page Component
   const NotFoundPage = () => (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white text-center">
-      <Image src="/Qonuniy.png" alt="Qonuniy logo" width={200} height={100} />
+      <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
       <h1 className="text-6xl font-bold mt-4 text-[#0099b5]">404</h1>
       <p className="mt-4 text-xl text-[#0099b5]">Sahifa topilmadi</p>
       <Link href="/" className="mt-6 px-4 py-2 bg-[#0099b5] text-white rounded hover:bg-[#009ab5c2]">
@@ -83,12 +83,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/Qonuniy.png" />
+        <link rel="icon" href="/Qonuniy.svg" />
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         {isLoading ? (
           <div className="flex items-center justify-center min-h-screen ">
-            <Image src="/Qonuniy.png" alt="Qonuniy logo" width={200} height={100} />
+            <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
           </div>
         ) : is404 ? (
           <NotFoundPage />
