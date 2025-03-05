@@ -71,10 +71,10 @@ export default function RootLayout({
   const NotFoundPage = () => (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white text-center">
       <Image src="/Qonuniy.png" alt="Qonuniy logo" width={200} height={100} />
-      <h1 className="text-6xl font-bold mt-4 text-black">404</h1>
-      <p className="mt-4 text-xl text-black">Page Not Found</p>
-      <Link href="/" className="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-        Go back to Home
+      <h1 className="text-6xl font-bold mt-4 text-[#0099b5]">404</h1>
+      <p className="mt-4 text-xl text-[#0099b5]">Sahifa topilmadi</p>
+      <Link href="/" className="mt-6 px-4 py-2 bg-[#0099b5] text-white rounded hover:bg-[#009ab5c2]">
+        Bosh sahifaga qaytish
       </Link>
     </div>
   )

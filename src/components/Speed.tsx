@@ -45,7 +45,6 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   display: "flex",
@@ -121,7 +120,7 @@ export default function CustomSpeedDial() {
           </SpeedDial>
         </Box>
         <Modal open={isModalOpen} onClose={handleClose} >
-          <Box sx={style} className="rounded-xl border-none">
+          <Box sx={style} className="rounded-xl border">
             <Avatar alt="Profil rasmi" src="/profile.jpg" sx={{ width: 80, height: 80, mb: 2 }} />
             <Typography variant="h6" component="h2">
               Abdiaxatov
