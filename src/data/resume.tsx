@@ -68,10 +68,10 @@ export const DATA = {
         icon: Icons.Facebook,
         navbar: true,
       },
-      X: {
-        name: "X",
-        url: "https://www.linkedin.com/in/nurbekabdiaxatov",
-        icon: Icons.X,
+      Telegram: {
+        name: "Telegram",
+        url: "https://t.me/qonuniy1uz",
+        icon: Icons.Telegram,
         navbar: true,
       },
       tel: {
@@ -80,12 +80,12 @@ export const DATA = {
         icon: Icons.whatsapp,
         navbar: true,
       },
-      Telegram: {
-        name: "Telegram",
-        url: "https://t.me/Abdiaxatov",
-        icon: Icons.Telegram,
-        navbar: true,
-      },
+      // Telegram_bot: {
+      //   name: "Telegram",
+      //   url: "https://t.me/Abdiaxatov",
+      //   icon: Icons.Telegram,
+      //   navbar: true,
+      // },
       email: {
         name: "Send Email",
         url: "mailto:nurbekabdiaxatov@gmail.com",

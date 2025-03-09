@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['media.licdn.com'],
+    domains: ['media.licdn.com', 'i.imghippo.com'], // Verguldan keyin string ichida yozish kerak
   },
 };
 

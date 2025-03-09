@@ -14,7 +14,7 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-
+import Twitter from "@mui/icons-material/Twitter";
 const theme = createTheme({
   components: {
     MuiTooltip: {
@@ -33,8 +33,9 @@ const theme = createTheme({
 
 const actions = [
   { icon: <Person />, name: "Portfolio" },
-  { icon: <Telegram />, name: "Telegram", url: "https://t.me/Abdiaxatov" },
+  { icon: <Telegram />, name: "Telegram", url: "https://t.me/qonuniyuz_bot" },
   { icon: <Email />, name: "Email", url: "mailto:abduaxatov007@gmail.com" },
+  {icon:<Twitter/>, name:"Twitter", url:"https://twitter.com/nurbek_abdiaxatov"},
   { icon: <Phone />, name: "Telefon", url: "tel:+998940192117" },
 ];
 

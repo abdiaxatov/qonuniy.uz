@@ -15,7 +15,7 @@ import "./globals.css"
 import { motion, useScroll } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-
+import { LanguageProvider } from "@/components/language-provider"
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -32,21 +32,21 @@ export default function RootLayout({
   const router = useRouter()
 
   // Check if the current route should show a 404 page
-  // This is a client-side approach to detect 404s
   const [is404, setIs404] = useState(false)
 
   useEffect(() => {
-    // Check if the current path should be a 404
-    // This is a simplified approach - in a real app you might want to
-    // check against a list of valid routes or use Next.js's built-in handling
     const checkRoute = async () => {
       try {
-        // Add your valid routes here
-        const validRoutes = ["/", "/project", "/contact", "/services", "/blog"]
+        const validRoutes = ["/", "/project",]
 
-        // If the pathname is not in validRoutes and not a dynamic route
-        // (you may need to adjust this logic based on your app's routes)
-        if (!validRoutes.includes(pathname) && !pathname.startsWith("/blog/") && !pathname.startsWith("/services/")) {
+        // Dinamik marshrutlarni tekshirish
+        const isDynamicRoute =
+          pathname.startsWith("/blog/") ||
+          pathname.startsWith("/services/") ||
+          pathname.startsWith("/project/") ||
+          pathname.startsWith("/article/")
+
+        if (!validRoutes.includes(pathname) && !isDynamicRoute) {
           setIs404(true)
         } else {
           setIs404(false)
@@ -96,6 +96,7 @@ export default function RootLayout({
           <>
             <motion.div className="progress-bar" style={{ scaleX: scrollYProgress }} />
             <ThemeProvider attribute="class" defaultTheme="light">
+            <LanguageProvider>
               <TooltipProvider delayDuration={0}>
                 <div className="fixed top-0 left-0 right-0 z-50 h-16">
                   <Header />
@@ -106,6 +107,7 @@ export default function RootLayout({
                   <Speed />
                 </div>
               </TooltipProvider>
+              </LanguageProvider>
             </ThemeProvider>
           </>
         )}
@@ -113,4 +115,3 @@ export default function RootLayout({
     </html>
   )
 }
-

@@ -1,93 +1,412 @@
-"use client";
-import { HackathonCard } from "@/components/hackathon-card";
-import BlurFade from "@/components/magicui/blur-fade";
-import BlurFadeText from "@/components/magicui/blur-fade-text";
-import { ProjectCard } from "@/components/project-card";
-import { ResumeCard } from "@/components/resume-card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { DATA } from "@/data/resume";
-import Link from "next/link";
-import Markdown from "react-markdown";
-const BLUR_FADE_DELAY = 0.04;
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
-import { createSwapy } from "swapy";
+"use client"
 
-export default function Page() {
-  const { theme } = useTheme();
-  const [color, setColor] = useState("#ffffff");
+import { useState, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { parseISO } from "date-fns/parseISO"
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow"
+import { Play, AlertCircle, AlertTriangle } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { collection, onSnapshot, doc, updateDoc, increment } from "firebase/firestore"
+import { db } from "@/lib/firebase"
+import { useSearchParams, useRouter } from "next/navigation"
+import { useLanguage } from "@/components/language-provider"
+
+// Language code mapping
+const LANGUAGE_CODES = {
+  uzb: ["uzb", "uz"],
+  rus: ["rus", "ru"],
+  eng: ["eng", "en"],
+  uzb_cyr: ["uzb_cyr", "uz_cyr"],
+}
+
+export default function Project() {
+  const [projects, setProjects] = useState<any[]>([])
+  const [filteredProjects, setFilteredProjects] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [hasLanguageProjects, setHasLanguageProjects] = useState(true)
+  const searchParams = useSearchParams()
+  const searchQuery = searchParams.get("search")
+  const langFilter = searchParams.get("lang")
+  const { currentLanguage } = useLanguage()
+  const router = useRouter()
 
   useEffect(() => {
-    setColor(theme === "dark" ? "#ffffff" : "#000000");
-  }, [theme]);
+    const projectsRef = collection(db, "Projects")
 
-  useEffect(() => {
-    // Only run Swapy if the screen width is larger than 768px (typically desktops)
-    if (typeof window !== "undefined" && window.innerWidth > 768) {
-      const container = document.querySelector('.projects-container');
-      if (container) {
-        const swapy = createSwapy(container, {
-          animation: 'dynamic', // Change animation if needed
-        });
+    try {
+      const unsubscribe = onSnapshot(projectsRef, (snapshot) => {
+        const projectsData: any[] = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
 
-        swapy.onSwap((event) => {
-          console.log(event.data.object); // You can store the new order here
-        });
+        // Sort by date (newest first)
+        projectsData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
-        // Optional: Enable or disable Swapy
-        swapy.enable(true);
-      } else {
-        console.warn("Swapy container not found");
-      }
-    } else {
-      console.log("Swapy is disabled on mobile screens");
+        setProjects(projectsData)
+        setLoading(false)
+      })
+
+      return () => unsubscribe()
+    } catch (error) {
+      console.error("Error fetching projects:", error)
+      setLoading(false)
     }
-  }, []); // Empty dependency array ensures this runs once after the component mounts
+  }, [])
+
+  // Filter projects based on search query or language
+  useEffect(() => {
+    if (projects.length === 0) return
+
+    let filtered = [...projects]
+    const languageToFilter = langFilter || currentLanguage.code
+
+    // Get all possible language codes for the selected language
+    const possibleLanguageCodes = LANGUAGE_CODES[languageToFilter as keyof typeof LANGUAGE_CODES] || [languageToFilter]
+
+    // Check if there are any projects in the selected language
+    const hasProjectsInLanguage = projects.some((project) => possibleLanguageCodes.includes(project.language))
+
+    setHasLanguageProjects(hasProjectsInLanguage)
+
+    // If there are projects in the selected language, filter by that language
+    if (hasProjectsInLanguage) {
+      filtered = filtered.filter((project) => possibleLanguageCodes.includes(project.language))
+    } else {
+      // If no projects in the selected language, show all projects
+      console.log(`No projects found in language: ${languageToFilter}`)
+    }
+
+    // Apply search filter if search query exists
+    if (searchQuery) {
+      filtered = filtered.filter((project) => project.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    }
+
+    setFilteredProjects(filtered)
+  }, [projects, searchQuery, langFilter, currentLanguage.code])
+
+  // Add useEffect to redirect to saved language on initial load if no filters are applied
+  useEffect(() => {
+    if (!searchQuery && !langFilter && typeof window !== "undefined") {
+      const savedLang = localStorage.getItem("selectedLanguage")
+      if (savedLang && savedLang !== "uzb") {
+        router.push(`/project?lang=${savedLang}`)
+      }
+    }
+  }, [searchQuery, langFilter, router])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen ">
+        <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
+      </div>
+    )
+  }
+
+  // If no projects in the selected language, show a message but don't filter
+  // This ensures we always show some content
+  const displayProjects = hasLanguageProjects ? filteredProjects : projects
+
+  const featuredProject = displayProjects.length > 0 ? displayProjects[0] : null
+  const otherProjects = displayProjects.length > 1 ? displayProjects.slice(1) : []
+
+  // Determine the page title based on filters
+  const getPageTitle = () => {
+    if (searchQuery) {
+      return `"${searchQuery}" qidiruv natijalari`
+    } else if (langFilter) {
+      const langName =
+        {
+          uzb: "O'zbekcha",
+          rus: "Ruscha",
+          eng: "Inglizcha",
+          uzb_cyr: "Ўзбекча",
+        }[langFilter] || langFilter
+
+      return `${langName} loyihalar`
+    }
+    return "Barcha loyihalar"
+  }
 
   return (
-    <main className="flex flex-col   bg-background space-y-10 min-h-screen font-sans antialiased max-w-2xl mx-auto py-4 sm:py-4 px-6">
-      <section id="projects">
-        <div className="space-y-12 w-full py-0 mb-20">
-          <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
-                  My Projects
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Check out my latest work
+    <main className="min-h-screen bg-background mb-12">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8 border-b pb-4">
+          {getPageTitle()}
+          {(searchQuery || langFilter) && (
+            <span className="ml-2 text-sm font-normal text-muted-foreground">({displayProjects.length} ta natija)</span>
+          )}
+        </h1>
+
+        {!hasLanguageProjects && langFilter && (
+          <Alert variant="info" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Ma`lumot</AlertTitle>
+            <AlertDescription>
+              Tanlangan tilda loyihalar hozircha mavjud emas. Barcha mavjud loyihalar ko`rsatilmoqda.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {displayProjects.length === 0 ? (
+          <Alert variant="warning">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Natija topilmadi</AlertTitle>
+            <AlertDescription>
+              {searchQuery
+                ? `"${searchQuery}" so'rovi bo'yicha hech qanday loyiha topilmadi.`
+                : `Hech qanday loyiha mavjud emas.`}
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <>
+            {featuredProject && <FeaturedProject project={featuredProject} />}
+
+            {otherProjects.length > 0 && (
+              <div className="mt-12">
+                <h2 className="text-2xl font-bold mb-6 border-b pb-2">
+                  {searchQuery ? "Boshqa qidiruv natijalari" : langFilter ? "Boshqa loyihalar" : "Boshqa loyihalar"}
                 </h2>
-                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  I ve worked on a variety of projects, from simple websites to complex web applications. Here are a few of my favorites.
-                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {otherProjects.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </main>
+  )
+}
+
+function FeaturedProject({ project }: { project: any }) {
+  const [hasTrackedView, setHasTrackedView] = useState(false)
+
+  useEffect(() => {
+    const trackView = async () => {
+      if (!hasTrackedView) {
+        const viewedProjects = JSON.parse(localStorage.getItem("viewedProjects") || "{}")
+
+        if (!viewedProjects[project.id]) {
+          const projectRef = doc(db, "Projects", project.id)
+          await updateDoc(projectRef, {
+            views: increment(1),
+          })
+
+          viewedProjects[project.id] = true
+          localStorage.setItem("viewedProjects", JSON.stringify(viewedProjects))
+          setHasTrackedView(true)
+        }
+      }
+    }
+
+    trackView()
+  }, [project.id, hasTrackedView])
+
+  // Truncate content to 300 characters and add ellipsis if needed
+  const truncateContent = (content: string) => {
+    if (!content) return ""
+    if (content.length <= 300) return content
+    return content.substring(0, 300) + "..."
+  }
+
+  const getMediaContent = () => {
+    if (project.videoUrl && project.videoUrl.includes("youtube")) {
+      const videoId = project.videoUrl.split("v=")[1]?.split("&")[0] || ""
+      return (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}`}
+            className="absolute inset-0 w-full h-full"
+            allowFullScreen
+            title={project.title}
+          />
+        </div>
+      )
+    } else if (project.imageUrl) {
+      return (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+          <Image src={project.imageUrl || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+        </div>
+      )
+    } else {
+      return (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+          <Image src="/placeholder.svg?height=600&width=1200" alt="Placeholder" fill className="object-cover" />
+        </div>
+      )
+    }
+  }
+
+  // Get language display name
+  const getLanguageDisplay = (langCode: string) => {
+    if (!langCode) return ""
+
+    if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
+    if (langCode === "rus" || langCode === "ru") return "Ruscha"
+    if (langCode === "eng" || langCode === "en") return "Inglizcha"
+    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
+
+    return langCode
+  }
+
+  return (
+    <Link href={`/project/${project.id}`} className="block group">
+      <Card className="border-none shadow-none hover:shadow-lg transition-shadow rounded-lg overflow-hidden">
+        <CardContent className="p-0">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="order-2 md:order-1 flex flex-col justify-center p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge variant="outline" className="text-xs">
+                  {project.author || "Muallif"}
+                </Badge>
+                <span className="text-xs text-muted-foreground">
+                  {project.date
+                    ? formatDistanceToNow(parseISO(project.date), { addSuffix: true })
+                    : "Sana korsatilmagan"}
+                </span>
+                <div className="flex items-center text-xs text-muted-foreground">
+                  <span className="ml-2">{project.views || 0} korishlar</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                {project.language && (
+                  <Badge variant="secondary" className="text-xs">
+                    {getLanguageDisplay(project.language)}
+                  </Badge>
+                )}
+              </div>
+              <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">{project.title}</h2>
+              <p className="text-muted-foreground">{truncateContent(project.content)}</p>
+              <div className="mt-4 inline-flex">
+                <span className="text-primary font-medium group-hover:underline">Batafsil oqish</span>
               </div>
             </div>
-          </BlurFade>
-
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto projects-container cursor-grab">
-            {DATA.projects.map((project, id) => (
-              <BlurFade key={id} delay={BLUR_FADE_DELAY * 12 + id * 0.05}>
-                <div data-swapy-slot={`project-${id}`} className="flex flex-col h-full">
-                  <div data-swapy-item={`item-${id}`} className="flex-1 flex flex-col justify-between">
-                    <ProjectCard
-                      href={project.href}
-                      title={project.title}
-                      description={project.description}
-                      dates={project.dates}
-                      tags={project.technologies}
-                      image={project.image}
-                      video={project.video}
-                      links={project.links}
-                    />
-                  </div>
-                </div>
-              </BlurFade>
-            ))}
+            <div className="order-1 md:order-2">{getMediaContent()}</div>
           </div>
-        </div>
-      </section>
-
-    </main>
-  );
+        </CardContent>
+      </Card>
+    </Link>
+  )
 }
+
+function ProjectCard({ project }: { project: any }) {
+  const [hasTrackedView, setHasTrackedView] = useState(false)
+
+  useEffect(() => {
+    const trackView = async () => {
+      if (!hasTrackedView) {
+        const viewedProjects = JSON.parse(localStorage.getItem("viewedProjects") || "{}")
+
+        if (!viewedProjects[project.id]) {
+          const projectRef = doc(db, "Projects", project.id)
+          await updateDoc(projectRef, {
+            views: increment(1),
+          })
+
+          viewedProjects[project.id] = true
+          localStorage.setItem("viewedProjects", JSON.stringify(viewedProjects))
+          setHasTrackedView(true)
+        }
+      }
+    }
+
+    trackView()
+  }, [project.id, hasTrackedView])
+
+  // Truncate content to 300 characters and add ellipsis if needed
+  const truncateContent = (content: string) => {
+    if (!content) return ""
+    if (content.length <= 300) return content
+    return content.substring(0, 300) + "..."
+  }
+
+  const getMediaContent = () => {
+    if (project.videoUrl && project.videoUrl.includes("youtube")) {
+      return (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg group-hover:opacity-90 transition-opacity">
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="bg-primary/80 rounded-full p-2">
+              <Play className="h-6 w-6 text-white" />
+            </div>
+          </div>
+          <Image
+            src={project.imageUrl || "/placeholder.svg?height=400&width=600"}
+            alt={project.title}
+            fill
+            className="object-cover"
+          />
+        </div>
+      )
+    } else if (project.imageUrl) {
+      return (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg group-hover:opacity-90 transition-opacity">
+          <Image src={project.imageUrl || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+        </div>
+      )
+    } else {
+      return (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted group-hover:opacity-90 transition-opacity">
+          <Image src="/placeholder.svg?height=400&width=600" alt="Placeholder" fill className="object-cover" />
+        </div>
+      )
+    }
+  }
+
+  // Get language display name
+  const getLanguageDisplay = (langCode: string) => {
+    if (!langCode) return ""
+
+    if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
+    if (langCode === "rus" || langCode === "ru") return "Ruscha"
+    if (langCode === "eng" || langCode === "en") return "Inglizcha"
+    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
+
+    return langCode
+  }
+
+  return (
+    <Link href={`/project/${project.id}`} className="block group">
+      <Card className="border-none shadow-none hover:shadow-lg transition-shadow rounded-lg overflow-hidden">
+        <CardContent className="p-0">
+          <div className="space-y-3">
+            {getMediaContent()}
+            <div className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge variant="outline" className="text-xs">
+                  {project.author || "Muallif"}
+                </Badge>
+                <span className="text-xs text-muted-foreground">
+                  {project.date
+                    ? formatDistanceToNow(parseISO(project.date), { addSuffix: true })
+                    : "Sana korsatilmagan"}
+                </span>
+                <div className="flex items-center text-xs text-muted-foreground">
+                  <span className="ml-2">{project.views || 0} korishlar</span>
+                </div>
+              </div>
+              {project.language && (
+                <div className="mb-2">
+                  <Badge variant="secondary" className="text-xs">
+                    {getLanguageDisplay(project.language)}
+                  </Badge>
+                </div>
+              )}
+              <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                {project.title}
+              </h3>
+              <p className="text-muted-foreground text-sm mb-2">{truncateContent(project.content)}</p>
+              <div className="text-primary text-sm font-medium group-hover:underline">Batafsil oqish</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  )
+}
+
