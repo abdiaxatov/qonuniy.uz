@@ -2,7 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['media.licdn.com', 'i.imghippo.com'], // Verguldan keyin string ichida yozish kerak
+    dangerouslyAllowSVG: true, // Agar SVG ham ishlatmoqchi bo'lsangiz
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // Hamma saytlardan ruxsat beradi (XAVFLI!)
+      },
+    ],
   },
 };
 

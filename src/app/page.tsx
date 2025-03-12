@@ -101,7 +101,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen ">
-      <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
+      <img src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
     </div>
     )
   }
@@ -281,7 +281,7 @@ function FeaturedArticle({ article }: { article: any }) {
                   </Badge>
                 )}
               </div>
-              <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">{article.title}</h2>
+              <h2 className="text-3xl font-bold mb-4 group-hover:text-slate-500  text-primary transition-colors">{article.title}</h2>
               <p className="text-muted-foreground">{truncateContent(article.content)}</p>
               <div className="mt-4 inline-flex">
                 <span className="text-primary font-medium group-hover:underline">Batafsil oqish</span>
@@ -335,10 +335,9 @@ function ArticleCard({ article }: { article: any }) {
               <Play className="h-6 w-6 text-white" />
             </div>
           </div>
-          <Image
+          <img
             src={article.imageUrl || "/placeholder.svg?height=400&width=600"}
             alt={article.title}
-            fill
             className="object-cover"
           />
         </div>
@@ -346,13 +345,13 @@ function ArticleCard({ article }: { article: any }) {
     } else if (article.imageUrl) {
       return (
         <div className="relative aspect-video w-full overflow-hidden rounded-lg group-hover:opacity-90 transition-opacity">
-          <Image src={article.imageUrl || "/placeholder.svg"} alt={article.title} fill className="object-cover" />
+          <img src={article.imageUrl || "/placeholder.svg"} alt={article.title}  className="object-cover" />
         </div>
       )
     } else {
       return (
         <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted group-hover:opacity-90 transition-opacity">
-          <Image src="/placeholder.svg?height=400&width=600" alt="Placeholder" fill className="object-cover" />
+          <img src="/placeholder.svg?height=400&width=600" alt="Placeholder"  className="object-cover" />
         </div>
       )
     }
@@ -397,7 +396,7 @@ function ArticleCard({ article }: { article: any }) {
                   </Badge>
                 </div>
               )}
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+              <h3 className="font-semibold text-lg mb-2 group-hover:text-slate-500  text-primary transition-colors line-clamp-2">
                 {article.title}
               </h3>
               <p className="text-muted-foreground text-sm mb-2">{truncateContent(article.content)}</p>
