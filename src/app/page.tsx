@@ -101,8 +101,8 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen ">
-      <img src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
-    </div>
+        <img src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
+      </div>
     )
   }
 
@@ -282,7 +282,7 @@ function FeaturedArticle({ article }: { article: any }) {
                 )}
               </div>
               <h2 className="text-3xl font-bold mb-4 group-hover:text-slate-500  text-primary transition-colors">{article.title}</h2>
-              <p className="text-muted-foreground">{truncateContent(article.content)}</p>
+              <div className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }} />
               <div className="mt-4 inline-flex">
                 <span className="text-primary font-medium group-hover:underline">Batafsil oqish</span>
               </div>
@@ -399,7 +399,8 @@ function ArticleCard({ article }: { article: any }) {
               <h3 className="font-semibold text-lg mb-2 group-hover:text-slate-500  text-primary transition-colors line-clamp-2">
                 {article.title}
               </h3>
-              <p className="text-muted-foreground text-sm mb-2">{truncateContent(article.content)}</p>
+              <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }} />
+              
               <div className="text-primary text-sm font-medium group-hover:underline">Batafsil oqish</div>
             </div>
           </div>
@@ -408,4 +409,3 @@ function ArticleCard({ article }: { article: any }) {
     </Link>
   )
 }
-

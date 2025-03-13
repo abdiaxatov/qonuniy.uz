@@ -237,7 +237,7 @@ export default function ProjectPage() {
 
           {/* Content Section */}
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="whitespace-pre-line">{project.content}</p>
+            <div dangerouslySetInnerHTML={{ __html: project.content }} />
           </div>
 
           {/* Related Projects */}

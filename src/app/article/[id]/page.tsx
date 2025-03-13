@@ -233,7 +233,7 @@ export default function ArticlePage() {
 
           {/* Content Section */}
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="whitespace-pre-line">{article.content}</p>
+            <div dangerouslySetInnerHTML={{ __html: article.content }} />
           </div>
 
           {/* Related Articles */}
