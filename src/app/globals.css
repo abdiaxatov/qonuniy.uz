@@ -241,3 +241,6 @@ mark {
 p{
   color: #000 !important;
 }
+a {
+  text-decoration: none !important;
+}

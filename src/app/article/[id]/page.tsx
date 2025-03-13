@@ -99,7 +99,7 @@ export default function ArticlePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen ">
-        <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
+        {/* <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} /> */}
       </div>
     )
   }
