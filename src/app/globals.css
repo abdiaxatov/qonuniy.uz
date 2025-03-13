@@ -234,3 +234,7 @@ mark {
   background-color: #0099b5 !important;
   color: #fff !important;
 }
+.prose :where(p):not(:where([class~="not-prose"] *)) {
+  margin-top: 0.20em !important;
+  margin-bottom: 0.20em !important;
+}
