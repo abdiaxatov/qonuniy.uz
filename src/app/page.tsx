@@ -101,7 +101,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen ">
-        <img src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
+        {/* <img src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} /> */}
       </div>
     )
   }
@@ -268,10 +268,10 @@ function FeaturedArticle({ article }: { article: any }) {
                 <span className="text-xs text-muted-foreground">
                   {article.date
                     ? formatDistanceToNow(parseISO(article.date), { addSuffix: true })
-                    : "Sana korsatilmagan"}
+                    : "Sana ko`rsatilmagan"}
                 </span>
                 <div className="flex items-center text-xs text-muted-foreground">
-                  <span className="ml-2">{article.views || 0} korishlar</span>
+                  <span className="ml-2">{article.views || 0} ko`rishlar</span>
                 </div>
               </div>
               <div className="flex items-center gap-2 mb-3">
@@ -383,10 +383,10 @@ function ArticleCard({ article }: { article: any }) {
                 <span className="text-xs text-muted-foreground">
                   {article.date
                     ? formatDistanceToNow(parseISO(article.date), { addSuffix: true })
-                    : "Sana korsatilmagan"}
+                    : "Sana ko`rsatilmagan"}
                 </span>
                 <div className="flex items-center text-xs text-muted-foreground">
-                  <span className="ml-2">{article.views || 0} korishlar</span>
+                  <span className="ml-2">{article.views || 0} ko`rishlar</span>
                 </div>
               </div>
               {article.language && (

@@ -45,7 +45,7 @@ export default function Navbar() {
                 </Link>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{item.label}</p>
+                <span className="text-white">{item.label}</span>
               </TooltipContent>
             </Tooltip>
           </DockIcon>
@@ -72,7 +72,7 @@ export default function Navbar() {
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{name}</p>
+                  <span className="text-white">{name}</span>
                 </TooltipContent>
               </Tooltip>
             </DockIcon>
