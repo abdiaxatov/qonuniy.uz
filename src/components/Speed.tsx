@@ -40,8 +40,8 @@ const translations = {
     email: "Email",
     twitter: "Twitter",
     phone: "Telefon",
-    profileName: "Soburov Xasanjon Shavkatjon",
-    profileDescription: `Veb-sayt egasi Soburov Xasanjon Shavkatjon o'g'li - huquq magistri, 3-darajali yurist. Sud va adliya organlarida faoliyat olib borgan. Barcha huquqiy masalalarda yuridik yordam xizmati mavjud. Telefon: `,
+    profileName: "Soburov Xasanjon Shavkatjon o'g'li",
+    profileDescription: `Veb-sayt egasi Soburov Xasanjon Shavkatjon o'g'li- huquq magistri, 3-darajali yurist. Sud va adliya organlarida faoliyat olib borgan. Barcha huquqiy masalalarda yuridik yordam xizmati mavjud. Telefon: `,
     close: "Yopish",
   },
   rus: {
@@ -50,8 +50,8 @@ const translations = {
     email: "Электронная почта",
     twitter: "Твиттер",
     phone: "Телефон",
-    profileName: "Собуров Хасанжон Шавкатжон",
-    profileDescription: `Владелец сайта Собуров Хасанжон Шавкатжонович o'gli - магистр права, юрист третьего уровня. Работал в судах и органах юстиции. Оказывает юридическую помощь по всем правовым вопросам. Телефон: `,
+    profileName: "Soburov Xasanjon Shavkatjon o'g'li",
+    profileDescription: `Владелец сайта Soburov Xasanjon Shavkatjon o'g'li - магистр права, юрист третьего уровня. Работал в судах и органах юстиции. Оказывает юридическую помощь по всем правовым вопросам. Телефон: `,
     close: "Закрыть",
   },
   eng: {
@@ -60,8 +60,8 @@ const translations = {
     email: "Email",
     twitter: "Twitter",
     phone: "Phone",
-    profileName: "Soburov Xasanjon Shavkatjon",
-    profileDescription: `The owner of the website, Hasanjon Shavkatjonovich Soburov o'gli, holds a master's degree in law and is a third-level lawyer. He has worked in courts and justice bodies. Legal assistance is available for all legal matters. Phone: `,
+    profileName: "Soburov Xasanjon Shavkatjon o'g'li",
+    profileDescription: `The owner of the website, Soburov Xasanjon Shavkatjon o'g'li, holds a master's degree in law and is a third-level lawyer. He has worked in courts and justice bodies. Legal assistance is available for all legal matters. Phone: `,
     close: "Close",
   },
   uzb_cyr: {
@@ -70,8 +70,8 @@ const translations = {
     email: "Электрон почта",
     twitter: "Твиттер",
     phone: "Телефон",
-    profileName: "Собуров Хасанжон Шавкатжонович",
-    profileDescription: `Веб-сайт эгаси Собуров Хасанжон Шавкатжонович - ҳуқуқ магистри, 3-даражали юрист. Суд ва адлия органларида фаолият олиб борган. Барча ҳуқуқий масалаларда юридик ёрдам хизмати мавжуд. Телефон: `,
+    profileName: "Soburov Xasanjon Shavkatjon o'g'li",
+    profileDescription: `Веб-сайт эгаси Soburov Xasanjon Shavkatjon o'g'li - ҳуқуқ магистри, 3-даражали юрист. Суд ва адлия органларида фаолият олиб борган. Барча ҳуқуқий масалаларда юридик ёрдам хизмати мавжуд. Телефон: `,
     close: "Ёпиш",
   },
 };

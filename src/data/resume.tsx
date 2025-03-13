@@ -52,19 +52,19 @@ export const DATA = {
     social: {
       Instagram: {
         name: "Instagram",
-        url: "https://github.com/nurbekabdiaxatov",
+        url: "https://www.instagram.com/qonuniy.uz/",
         icon: Icons.Instagram,
         navbar: true,
       },
       Youtube: {
         name: "Youtube",
-        url: "https://www.linkedin.com/in/nurbekabdiaxatov",
+        url: "https://www.youtube.com/@qonuniy_uz",
         icon: Icons.youtube,
         navbar: true,
       },
       Facebook: {
         name: "Facebook",
-        url: "https://www.linkedin.com/in/nurbekabdiaxatov",
+        url: "https://www.facebook.com/share/1BNxpbUCo3/",
         icon: Icons.Facebook,
         navbar: true,
       },
@@ -74,12 +74,7 @@ export const DATA = {
         icon: Icons.Telegram,
         navbar: true,
       },
-      tel: {
-        name: "tel",
-        url: "tel:+998940192117",
-        icon: Icons.whatsapp,
-        navbar: true,
-      },
+
       // Telegram_bot: {
       //   name: "Telegram",
       //   url: "https://t.me/Abdiaxatov",
