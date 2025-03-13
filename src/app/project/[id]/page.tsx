@@ -293,7 +293,7 @@ export default function ProjectPage() {
                   onClick={() => {
                     navigator.clipboard.writeText(window.location.href)
                   }}
-                  className="rounded-l-none h-12"
+                  className="rounded-l-none h-12 bg-[#0099b5] text-white"
                 >
                   Nusxalash
                 </Button>
