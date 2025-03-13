@@ -284,7 +284,7 @@ function FeaturedProject({ project }: { project: any }) {
               <h2 className="text-3xl font-bold mb-4 group-hover:text-slate-500  text-primary transition-colors">{project.title}</h2>
               <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(project.content) }} />
               <div className="mt-4 inline-flex">
-                <span className="text-primary font-medium group-hover:underline">Batafsil oqish</span>
+                <span className="text-primary font-medium group-hover:underline">Batafsil o`qish</span>
               </div>
             </div>
             <div className="order-1 md:order-2">{getMediaContent()}</div>
@@ -401,7 +401,7 @@ function ProjectCard({ project }: { project: any }) {
                 {project.title}
               </h3>
               <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(project.content) }} />
-              <div className="text-primary text-sm font-medium group-hover:underline">Batafsil oqish</div>
+              <div className="text-primary text-sm font-medium group-hover:underline">Batafsil o`qish</div>
             </div>
           </div>
         </CardContent>
