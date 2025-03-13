@@ -281,7 +281,7 @@ function FeaturedArticle({ article }: { article: any }) {
                   </Badge>
                 )}
               </div>
-              <h2 className="text-3xl font-bold mb-4 group-hover:text-slate-500  text-primary transition-colors">{article.title}</h2>
+              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#0099b5]  text-primary transition-colors">{article.title}</h2>
               <div className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }} />
               <div className="mt-4 inline-flex">
                 <span className="text-primary font-medium group-hover:underline">Batafsil o`qish</span>
@@ -396,7 +396,7 @@ function ArticleCard({ article }: { article: any }) {
                   </Badge>
                 </div>
               )}
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-slate-500  text-primary transition-colors line-clamp-2">
+              <h3 className="font-semibold text-lg mb-2 group-hover:text-[#0099b5]  text-primary transition-colors line-clamp-2">
                 {article.title}
               </h3>
               <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }} />
