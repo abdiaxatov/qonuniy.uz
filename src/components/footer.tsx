@@ -41,7 +41,7 @@ const translations = {
         </a>{" "}
         зарегистрирован в качестве средства массовой информации (СМИ) Агентством информации и массовых коммуникаций при
         Администрации Президента Республики Узбекистан 26 февраля 2025 года. Свидетельство: № 639600. Учредитель:
-        Собуров Хасанжон Шавкатжонович. Адрес: 151712, Ферганская область, Фуркатский район, МФЙ Эшон, улица Солимгох,
+        Soburov Hasanjon Shavkatjonon o`g`li. Адрес: 151712, Ферганская область, Фуркатский район, МФЙ Эшон, улица Солимгох,
         дом 58. Электронная почта:{" "}
         <a href="mailto:qonuniy.uz@gmail.com" className="font-bold">
           qonuniy.uz@gmail.com
@@ -66,7 +66,7 @@ const translations = {
         </a>{" "}
         website is registered as a mass media (MM) by the Information and Mass Communications Agency under the
         Administration of the President of the Republic of Uzbekistan on February 26, 2025. Certificate: № 639600.
-        Founder: Hasanjon Shavkatjonovich Soburov o`gli. Address: 151712, Fergana region, Furqat district, Eshon MFY, Solimgoh
+        Founder: Soburov Hasanjon Shavkatjonon o`g`li. Address: 151712, Fergana region, Furqat district, Eshon MFY, Solimgoh
         street, house 58. Email:{" "}
         <a href="mailto:qonuniy.uz@gmail.com" className="font-bold">
           qonuniy.uz@gmail.com
@@ -91,7 +91,7 @@ const translations = {
         </a>{" "}
         веб-сайти оммавий ахборот воситаси (ОАВ) сифатида Ўзбекистон Республикаси Президенти Администрацияси ҳузуридаги
         Ахборот ва оммавий коммуникациялар агентлиги томонидан 2025 йил 26 февраль куни давлат рўйхатидан ўтказилган.
-        Гувоҳнома: № 639600. Муассис: Собуров Хасанжон Шавкатжонович o`gli. Жойлашган манзили: 151712, Фарғона вилояти, Фурқат
+        Гувоҳнома: № 639600. Муассис: Soburov Hasanjon Shavkatjonon o`g`li. Жойлашган манзили: 151712, Фарғона вилояти, Фурқат
         тумани, Эшон МФЙ, Сўлмғоҳ кўчаси, 58-уй. Электрон манзил:{" "}
         <a href="mailto:qonuniy.uz@gmail.com" className="font-bold">
           qonuniy.uz@gmail.com
