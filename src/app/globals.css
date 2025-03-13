@@ -229,3 +229,8 @@ body::-webkit-scrollbar-thumb {
   background: #0099b5 !important;
 
 }
+
+mark {
+  background-color: #0099b5 !important;
+  color: #fff !important;
+}
