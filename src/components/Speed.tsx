@@ -80,7 +80,7 @@ const actions = (t: any) => [
   { icon: <Person />, name: t.portfolio },
   { icon: <Telegram />, name: t.telegram, url: "https://t.me/qonuniyuz_bot" },
   { icon: <Email />, name: t.email, url: "mailto:qonuniy.uz@gmail.com" },
-  { icon: <Twitter />, name: t.twitter, url: "https://twitter.com/qonuniy.uz" },
+  { icon: <Twitter />, name: t.twitter, url: "https://x.com/qonuniy_uz" },
   { icon: <Phone />, name: t.phone, url: "tel:+998337923192" },
 ];
 
