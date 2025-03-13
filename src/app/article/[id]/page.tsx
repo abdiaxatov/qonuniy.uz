@@ -286,7 +286,7 @@ export default function ArticlePage() {
                 />
                 <Button
                   onClick={() => navigator.clipboard.writeText(window.location.href)}
-                  className="rounded-l-none h-12 bg-[#0099b5] text-white"
+                  className="rounded-l-none h-12 bg-[#0099b5] text-white hover:bg-[#009ab5c2]"
                 >
                   Nusxalash
                 </Button>
