@@ -41,7 +41,7 @@ const translations = {
     twitter: "Twitter",
     phone: "Telefon",
     profileName: "Soburov Xasanjon Shavkatjon o'g'li",
-    profileDescription: `Veb-sayt egasi Soburov Xasanjon Shavkatjon o'g'li- huquq magistri, 3-darajali yurist. Sud va adliya organlarida faoliyat olib borgan. Barcha huquqiy masalalarda yuridik yordam xizmati mavjud. Telefon: `,
+    profileDescription: `Veb-sayt egasi Soburov Xasanjon Shavkatjon o'g'li - huquq magistri, 3-darajali yurist. Sud va adliya organlarida faoliyat olib borgan. Barcha huquqiy masalalarda yuridik yordam xizmati mavjud. Telefon: `,
     close: "Yopish",
   },
   rus: {
