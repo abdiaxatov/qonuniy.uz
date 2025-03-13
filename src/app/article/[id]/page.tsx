@@ -12,6 +12,59 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { doc, getDoc, updateDoc, increment, collection, query, where, getDocs, limit } from "firebase/firestore"
 import { db } from "@/lib/firebase"
+import { useLanguage } from "@/components/language-provider"
+
+// Translations for static text
+const translations = {
+  uzb: {
+    backToHome: "Bosh sahifaga qaytish",
+    author: "Muallif",
+    dateNotSpecified: "Sana ko'rsatilmagan",
+    views: "ko`rishlar",
+    relatedArticles: "O`xshash maqolalar",
+    share: "Ulashish",
+    notFound: "Sahifa topilmadi",
+    goToHome: "Bosh sahifaga qaytish",
+    copyLink: "Linkni ko'chirish",
+    close: "Yopish",
+  },
+  rus: {
+    backToHome: "Вернуться на главную",
+    author: "Автор",
+    dateNotSpecified: "Дата не указана",
+    views: "просмотров",
+    relatedArticles: "Похожие статьи",
+    share: "Поделиться",
+    notFound: "Страница не найдена",
+    goToHome: "Вернуться на главную",
+    copyLink: "Скопировать ссылку",
+    close: "Закрыть",
+  },
+  eng: {
+    backToHome: "Back to Home",
+    author: "Author",
+    dateNotSpecified: "Date not specified",
+    views: "views",
+    relatedArticles: "Related Articles",
+    share: "Share",
+    notFound: "Page Not Found",
+    goToHome: "Go to Home",
+    copyLink: "Copy Link",
+    close: "Close",
+  },
+  uzb_cyr: {
+    backToHome: "Бош саҳифага қайтиш",
+    author: "Муаллиф",
+    dateNotSpecified: "Сана кўрсатилмаган",
+    views: "кўришлар",
+    relatedArticles: "Ўхшаш мақолалар",
+    share: "Улашиш",
+    notFound: "Саҳифа топилмади",
+    goToHome: "Бош саҳифага қайтиш",
+    copyLink: "Линкни кўчириш",
+    close: "Йопиш",
+  },
+}
 
 // Helper function to get YouTube embed URL
 const getYouTubeEmbedUrl = (url: string) => {
@@ -36,6 +89,10 @@ export default function ArticlePage() {
   const [loading, setLoading] = useState(true)
   const [hasTrackedView, setHasTrackedView] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
+  const { currentLanguage } = useLanguage()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -98,7 +155,7 @@ export default function ArticlePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen ">
+      <div className="flex items-center justify-center min-h-screen">
         {/* <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} /> */}
       </div>
     )
@@ -109,9 +166,9 @@ export default function ArticlePage() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-white text-center">
         <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
         <h1 className="text-6xl font-bold mt-4 text-[#0099b5]">404</h1>
-        <p className="mt-4 text-xl text-[#0099b5]">Sahifa topilmadi</p>
+        <p className="mt-4 text-xl text-[#0099b5]">{t.notFound}</p>
         <Link href="/" className="mt-6 px-4 py-2 bg-[#0099b5] text-white rounded hover:bg-[#009ab5c2]">
-          Bosh sahifaga qaytish
+          {t.goToHome}
         </Link>
       </div>
     )
@@ -120,12 +177,10 @@ export default function ArticlePage() {
   // Get language display name
   const getLanguageDisplay = (langCode: string) => {
     if (!langCode) return ""
-
     if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
     if (langCode === "rus" || langCode === "ru") return "Ruscha"
     if (langCode === "eng" || langCode === "en") return "Inglizcha"
     if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
-
     return langCode
   }
 
@@ -139,7 +194,7 @@ export default function ArticlePage() {
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Bosh sahifaga qaytish
+            {t.backToHome}
           </Link>
         </div>
 
@@ -148,20 +203,20 @@ export default function ArticlePage() {
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[#0099b5]">{article.title}</h1>
 
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <Badge variant="outline">{article.author || "Muallif"}</Badge>
-              {article.language && (
+              <Badge variant="outline">{article.author || t.author}</Badge>
+              {/* {article.language && (
                 <Badge variant="secondary" className="text-xs">
                   {getLanguageDisplay(article.language)}
                 </Badge>
-              )}
+              )} */}
               <span className="text-sm text-muted-foreground">
                 {article.date
                   ? formatDistanceToNow(parseISO(article.date), { addSuffix: true })
-                  : "Sana ko'rsatilmagan"}
+                  : t.dateNotSpecified}
               </span>
               <div className="flex items-center text-sm text-muted-foreground">
                 <Eye className="h-4 w-4 mr-1" />
-                <span>{article.views || 0} ko`rishlar</span>
+                <span>{article.views || 0} {t.views}</span>
               </div>
               <div className="ml-auto flex items-center gap-2">
                 {article.linkUrl && (
@@ -174,7 +229,7 @@ export default function ArticlePage() {
                 )}
                 <Button variant="ghost" size="sm" onClick={handleShare}>
                   <Share2 className="h-4 w-4 mr-2" />
-                  Ulashish
+                  {t.share}
                 </Button>
               </div>
             </div>
@@ -239,7 +294,7 @@ export default function ArticlePage() {
           {/* Related Articles */}
           {relatedArticles.length > 0 && (
             <div className="mt-12 border-t pt-8">
-              <h2 className="text-2xl font-bold mb-6">O`xshash maqolalar</h2>
+              <h2 className="text-2xl font-bold mb-6">{t.relatedArticles}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedArticles.map((relatedArticle) => (
                   <Link key={relatedArticle.id} href={`/article/${relatedArticle.id}`} className="group">
@@ -274,9 +329,9 @@ export default function ArticlePage() {
       {showShareModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">Ulashish</h3>
+            <h3 className="text-xl font-bold mb-4">{t.share}</h3>
             <div className="mb-4">
-              <p className="text-sm text-muted-foreground mb-2">Ushbu havola orqali ulashing:</p>
+              <p className="text-sm text-muted-foreground mb-2">{t.share}</p>
               <div className="flex">
                 <input
                   type="text"
@@ -288,13 +343,13 @@ export default function ArticlePage() {
                   onClick={() => navigator.clipboard.writeText(window.location.href)}
                   className="rounded-l-none h-12 bg-[#0099b5] text-white hover:bg-[#009ab5c2]"
                 >
-                  Nusxalash
+                  {t.copyLink}
                 </Button>
               </div>
             </div>
             <div className="flex justify-end">
               <Button variant="outline" onClick={() => setShowShareModal(false)}>
-                Yopish
+                {t.close}
               </Button>
             </div>
           </div>

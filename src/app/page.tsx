@@ -22,6 +22,110 @@ const LANGUAGE_CODES = {
   uzb_cyr: ["uzb_cyr", "uz_cyr"],
 }
 
+// Translations for static text
+const translations = {
+  uzb: {
+    latestNews: "So`ngi yangiliklar",
+    searchResults: "qidiruv natijalari",
+    otherSearchResults: "Boshqa qidiruv natijalari",
+    otherArticles: "Boshqa maqolalar",
+    otherNews: "Boshqa yangiliklar",
+    noArticlesInLanguage: "Tanlangan tilda maqolalar hozircha mavjud emas. Barcha mavjud maqolalar ko`rsatilmoqda.",
+    noResultsFound: "Natija topilmadi",
+    noArticlesForSearch: "so'rovi bo'yicha hech qanday maqola topilmadi.",
+    noArticlesAvailable: "Hech qanday maqola mavjud emas.",
+    information: "Ma`lumot",
+    readMore: "Batafsil o`qish",
+    author: "Muallif",
+    dateNotSpecified: "Sana ko`rsatilmagan",
+    views: "ko`rishlar",
+    cards: "natija topildi",
+    uzbekNews: "O'zbekcha yangiliklar",
+    russianNews: "Ruscha yangiliklar",
+    englishNews: "Inglizcha yangiliklar",
+    uzbekCyrNews: "Ўзбекча янгиликлар",
+    uzbek: "O'zbekcha",
+    russian: "Ruscha",
+    english: "Inglizcha",
+    uzbekCyr: "Ўзбекча",
+  },
+  rus: {
+    latestNews: "Последние новости",
+    searchResults: "результаты поиска",
+    otherSearchResults: "Другие результаты поиска",
+    otherArticles: "Другие статьи",
+    otherNews: "Другие новости",
+    noArticlesInLanguage: "Статьи на выбранном языке пока недоступны. Показаны все доступные статьи.",
+    noResultsFound: "Результатов не найдено",
+    noArticlesForSearch: "По вашему запросу не найдено статей.",
+    noArticlesAvailable: "Нет доступных статей.",
+    information: "Информация",
+    readMore: "Читать подробнее",
+    author: "Автор",
+    dateNotSpecified: "Дата не указана",
+    views: "просмотров",
+    cards: "результат найден",
+    uzbekNews: "Новости на узбекском",
+    russianNews: "Новости на русском",
+    englishNews: "Новости на английском",
+    uzbekCyrNews: "Новости на узбекском (кириллица)",
+    uzbek: "Узбекский",
+    russian: "Русский",
+    english: "Английский",
+    uzbekCyr: "Узбекский (кир.)",
+  },
+  eng: {
+    latestNews: "Latest News",
+    searchResults: "search results",
+    otherSearchResults: "Other search results",
+    otherArticles: "Other articles",
+    otherNews: "Other news",
+    noArticlesInLanguage: "Articles in the selected language are not available yet. Showing all available articles.",
+    noResultsFound: "No results found",
+    noArticlesForSearch: "No articles found for your search query.",
+    noArticlesAvailable: "No articles available.",
+    information: "Information",
+    readMore: "Read more",
+    author: "Author",
+    dateNotSpecified: "Date not specified",
+    views: "views",
+    cards: "result found",
+    uzbekNews: "Uzbek news",
+    russianNews: "Russian news",
+    englishNews: "English news",
+    uzbekCyrNews: "Uzbek news (Cyrillic)",
+    uzbek: "Uzbek",
+    russian: "Russian",
+    english: "English",
+    uzbekCyr: "Uzbek (Cyr.)",
+  },
+  uzb_cyr: {
+    latestNews: "Сўнги янгиликлар",
+    searchResults: "қидирув натижалари",
+    otherSearchResults: "Бошқа қидирув натижалари",
+    otherArticles: "Бошқа мақолалар",
+    otherNews: "Бошқа янгиликлар",
+    noArticlesInLanguage: "Танланган тилда мақолалар ҳозирча мавжуд эмас. Барча мавжуд мақолалар кўрсатилмоқда.",
+    noResultsFound: "Натижа топилмади",
+    noArticlesForSearch: "сўрови бўйича ҳеч қандай мақола топилмади.",
+    noArticlesAvailable: "Ҳеч қандай мақола мавжуд эмас.",
+    information: "Маълумот",
+    readMore: "Батафсил ўқиш",
+    author: "Муаллиф",
+    dateNotSpecified: "Сана кўрсатилмаган",
+    views: "кўришлар",
+    cards: "натижа топилди",
+    uzbekNews: "Ўзбекча янгиликлар",
+    russianNews: "Русча янгиликлар",
+    englishNews: "Инглизча янгиликлар",
+    uzbekCyrNews: "Ўзбекча янгиликлар",
+    uzbek: "Ўзбекча",
+    russian: "Русча",
+    english: "Инглизча",
+    uzbekCyr: "Ўзбекча",
+  },
+}
+
 export default function Home() {
   const [articles, setArticles] = useState<any[]>([])
   const [filteredArticles, setFilteredArticles] = useState<any[]>([])
@@ -32,6 +136,9 @@ export default function Home() {
   const langFilter = searchParams.get("lang")
   const { currentLanguage } = useLanguage()
   const router = useRouter()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const articlesRef = collection(db, "blogs")
@@ -116,19 +223,19 @@ export default function Home() {
   // Determine the page title based on filters
   const getPageTitle = () => {
     if (searchQuery) {
-      return `"${searchQuery}" qidiruv natijalari`
+      return `"${searchQuery}" ${t.searchResults}`
     } else if (langFilter) {
       const langName =
         {
-          uzb: "O'zbekcha",
-          rus: "Ruscha",
-          eng: "Inglizcha",
-          uzb_cyr: "Ўзбекча",
+          uzb: t.uzbekNews,
+          rus: t.russianNews,
+          eng: t.englishNews,
+          uzb_cyr: t.uzbekCyrNews,
         }[langFilter] || langFilter
 
-      return `${langName} yangiliklar`
+      return `${langName}`
     }
-    return "So`ngi yangiliklar"
+    return t.latestNews
   }
 
   return (
@@ -137,28 +244,26 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-8 border-b pb-4">
           {getPageTitle()}
           {(searchQuery || langFilter) && (
-            <span className="ml-2 text-sm font-normal text-muted-foreground">({displayArticles.length} ta natija)</span>
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              {displayArticles.length} {t.cards}
+            </span>
           )}
         </h1>
 
         {!hasLanguageArticles && langFilter && (
           <Alert variant="info" className="mb-6">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Ma`lumot</AlertTitle>
-            <AlertDescription>
-              Tanlangan tilda maqolalar hozircha mavjud emas. Barcha mavjud maqolalar ko`rsatilmoqda.
-            </AlertDescription>
+            <AlertTitle>{t.information}</AlertTitle>
+            <AlertDescription>{t.noArticlesInLanguage}</AlertDescription>
           </Alert>
         )}
 
         {displayArticles.length === 0 ? (
           <Alert variant="warning">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>Natija topilmadi</AlertTitle>
+            <AlertTitle>{t.noResultsFound}</AlertTitle>
             <AlertDescription>
-              {searchQuery
-                ? `"${searchQuery}" so'rovi bo'yicha hech qanday maqola topilmadi.`
-                : `Hech qanday maqola mavjud emas.`}
+              {searchQuery ? `"${searchQuery}" ${t.noArticlesForSearch}` : t.noArticlesAvailable}
             </AlertDescription>
           </Alert>
         ) : (
@@ -168,7 +273,7 @@ export default function Home() {
             {otherArticles.length > 0 && (
               <div className="mt-12">
                 <h2 className="text-2xl font-bold mb-6 border-b pb-2">
-                  {searchQuery ? "Boshqa qidiruv natijalari" : langFilter ? "Boshqa maqolalar" : "Boshqa yangiliklar"}
+                  {searchQuery ? t.otherSearchResults : langFilter ? t.otherArticles : t.otherNews}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {otherArticles.map((article) => (
@@ -186,6 +291,10 @@ export default function Home() {
 
 function FeaturedArticle({ article }: { article: any }) {
   const [hasTrackedView, setHasTrackedView] = useState(false)
+  const { currentLanguage } = useLanguage()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const trackView = async () => {
@@ -247,10 +356,10 @@ function FeaturedArticle({ article }: { article: any }) {
   const getLanguageDisplay = (langCode: string) => {
     if (!langCode) return ""
 
-    if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
-    if (langCode === "rus" || langCode === "ru") return "Ruscha"
-    if (langCode === "eng" || langCode === "en") return "Inglizcha"
-    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
+    if (langCode === "uzb" || langCode === "uz") return t.uzbek
+    if (langCode === "rus" || langCode === "ru") return t.russian
+    if (langCode === "eng" || langCode === "en") return t.english
+    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return t.uzbekCyr
 
     return langCode
   }
@@ -263,15 +372,15 @@ function FeaturedArticle({ article }: { article: any }) {
             <div className="order-2 md:order-1 flex flex-col justify-center p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Badge variant="outline" className="text-xs">
-                  {article.author || "Muallif"}
+                  {article.author || t.author}
                 </Badge>
                 <span className="text-xs text-muted-foreground">
-                  {article.date
-                    ? formatDistanceToNow(parseISO(article.date), { addSuffix: true })
-                    : "Sana ko`rsatilmagan"}
+                  {article.date ? formatDistanceToNow(parseISO(article.date), { addSuffix: true }) : t.dateNotSpecified}
                 </span>
                 <div className="flex items-center text-xs text-muted-foreground">
-                  <span className="ml-2">{article.views || 0} ko`rishlar</span>
+                  <span className="ml-2">
+                    {article.views || 0} {t.views}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center gap-2 mb-3">
@@ -281,10 +390,15 @@ function FeaturedArticle({ article }: { article: any }) {
                   </Badge>
                 )}
               </div>
-              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#0099b5]  text-primary transition-colors">{article.title}</h2>
-              <div className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }} />
+              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#0099b5] text-primary transition-colors">
+                {article.title}
+              </h2>
+              <div
+                className="text-muted-foreground"
+                dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }}
+              />
               <div className="mt-4 inline-flex">
-                <span className="text-primary font-medium group-hover:underline">Batafsil o`qish</span>
+                <span className="text-primary font-medium group-hover:underline">{t.readMore}</span>
               </div>
             </div>
             <div className="order-1 md:order-2">{getMediaContent()}</div>
@@ -297,6 +411,10 @@ function FeaturedArticle({ article }: { article: any }) {
 
 function ArticleCard({ article }: { article: any }) {
   const [hasTrackedView, setHasTrackedView] = useState(false)
+  const { currentLanguage } = useLanguage()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const trackView = async () => {
@@ -345,13 +463,13 @@ function ArticleCard({ article }: { article: any }) {
     } else if (article.imageUrl) {
       return (
         <div className="relative aspect-video w-full overflow-hidden rounded-lg group-hover:opacity-90 transition-opacity">
-          <img src={article.imageUrl || "/placeholder.svg"} alt={article.title}  className="object-cover" />
+          <img src={article.imageUrl || "/placeholder.svg"} alt={article.title} className="object-cover" />
         </div>
       )
     } else {
       return (
         <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted group-hover:opacity-90 transition-opacity">
-          <img src="/placeholder.svg?height=400&width=600" alt="Placeholder"  className="object-cover" />
+          <img src="/placeholder.svg?height=400&width=600" alt="Placeholder" className="object-cover" />
         </div>
       )
     }
@@ -361,10 +479,10 @@ function ArticleCard({ article }: { article: any }) {
   const getLanguageDisplay = (langCode: string) => {
     if (!langCode) return ""
 
-    if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
-    if (langCode === "rus" || langCode === "ru") return "Ruscha"
-    if (langCode === "eng" || langCode === "en") return "Inglizcha"
-    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
+    if (langCode === "uzb" || langCode === "uz") return t.uzbek
+    if (langCode === "rus" || langCode === "ru") return t.russian
+    if (langCode === "eng" || langCode === "en") return t.english
+    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return t.uzbekCyr
 
     return langCode
   }
@@ -378,15 +496,15 @@ function ArticleCard({ article }: { article: any }) {
             <div className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="outline" className="text-xs">
-                  {article.author || "Muallif"}
+                  {article.author || t.author}
                 </Badge>
                 <span className="text-xs text-muted-foreground">
-                  {article.date
-                    ? formatDistanceToNow(parseISO(article.date), { addSuffix: true })
-                    : "Sana ko`rsatilmagan"}
+                  {article.date ? formatDistanceToNow(parseISO(article.date), { addSuffix: true }) : t.dateNotSpecified}
                 </span>
                 <div className="flex items-center text-xs text-muted-foreground">
-                  <span className="ml-2">{article.views || 0} ko`rishlar</span>
+                  <span className="ml-2">
+                    {article.views || 0} {t.views}
+                  </span>
                 </div>
               </div>
               {article.language && (
@@ -396,12 +514,15 @@ function ArticleCard({ article }: { article: any }) {
                   </Badge>
                 </div>
               )}
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-[#0099b5]  text-primary transition-colors line-clamp-2">
+              <h3 className="font-semibold text-lg mb-2 group-hover:text-[#0099b5] text-primary transition-colors line-clamp-2">
                 {article.title}
               </h3>
-              <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }} />
-              
-              <div className="text-primary text-sm font-medium group-hover:underline">Batafsil o`qish</div>
+              <div
+                className="text-muted-foreground text-sm mb-2"
+                dangerouslySetInnerHTML={{ __html: truncateContent(article.content) }}
+              />
+
+              <div className="text-primary text-sm font-medium group-hover:underline">{t.readMore}</div>
             </div>
           </div>
         </CardContent>
@@ -409,3 +530,4 @@ function ArticleCard({ article }: { article: any }) {
     </Link>
   )
 }
+

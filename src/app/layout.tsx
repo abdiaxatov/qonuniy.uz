@@ -16,6 +16,7 @@ import { motion, useScroll } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { LanguageProvider } from "@/components/language-provider"
+import {Footer} from "@/components/footer"
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -101,7 +102,12 @@ export default function RootLayout({
                 <div className="fixed top-0 left-0 right-0 z-50 h-16">
                   <Header />
                 </div>
-                <div className="pt-16">{children}</div>
+                <div className="pt-16">
+                  <div>
+                  {children}
+                  <Footer />
+                  </div>
+                </div>
                 <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto mb-4 flex origin-bottom h-full max-h-14 items-center gap-20 justify-center">
                   <Navbar />
                   <Speed />

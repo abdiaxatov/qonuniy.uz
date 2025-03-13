@@ -22,6 +22,106 @@ const LANGUAGE_CODES = {
   uzb_cyr: ["uzb_cyr", "uz_cyr"],
 }
 
+// Translations for static text
+const translations = {
+  uzb: {
+    allProjects: "Barcha loyihalar",
+    searchResults: "qidiruv natijalari",
+    otherSearchResults: "Boshqa qidiruv natijalari",
+    otherProjects: "Boshqa loyihalar",
+    noProjectsInLanguage: "Tanlangan tilda loyihalar hozircha mavjud emas. Barcha mavjud loyihalar ko`rsatilmoqda.",
+    noResultsFound: "Natija topilmadi",
+    noProjectsForSearch: "so'rovi bo'yicha hech qanday loyiha topilmadi.",
+    noProjectsAvailable: "Hech qanday loyiha mavjud emas.",
+    information: "Ma`lumot",
+    readMore: "Batafsil o`qish",
+    author: "Muallif",
+    dateNotSpecified: "Sana ko`rsatilmagan",
+    views: "ko`rishlar",
+    results: "ta natija",
+    uzbekProjects: "O'zbekcha loyihalar",
+    russianProjects: "Ruscha loyihalar",
+    englishProjects: "Inglizcha loyihalar",
+    uzbekCyrProjects: "Ўзбекча лойиҳалар",
+    uzbek: "O'zbekcha",
+    russian: "Ruscha",
+    english: "Inglizcha",
+    uzbekCyr: "Ўзбекча",
+  },
+  rus: {
+    allProjects: "Все проекты",
+    searchResults: "результаты поиска",
+    otherSearchResults: "Другие результаты поиска",
+    otherProjects: "Другие проекты",
+    noProjectsInLanguage: "Проекты на выбранном языке пока недоступны. Показаны все доступные проекты.",
+    noResultsFound: "Результатов не найдено",
+    noProjectsForSearch: "По вашему запросу не найдено проектов.",
+    noProjectsAvailable: "Нет доступных проектов.",
+    information: "Информация",
+    readMore: "Читать подробнее",
+    author: "Автор",
+    dateNotSpecified: "Дата не указана",
+    views: "просмотров",
+    results: "результатов",
+    uzbekProjects: "Проекты на узбекском",
+    russianProjects: "Проекты на русском",
+    englishProjects: "Проекты на английском",
+    uzbekCyrProjects: "Проекты на узбекском (кириллица)",
+    uzbek: "Узбекский",
+    russian: "Русский",
+    english: "Английский",
+    uzbekCyr: "Узбекский (кир.)",
+  },
+  eng: {
+    allProjects: "All Projects",
+    searchResults: "search results",
+    otherSearchResults: "Other search results",
+    otherProjects: "Other projects",
+    noProjectsInLanguage: "Projects in the selected language are not available yet. Showing all available projects.",
+    noResultsFound: "No results found",
+    noProjectsForSearch: "No projects found for your search query.",
+    noProjectsAvailable: "No projects available.",
+    information: "Information",
+    readMore: "Read more",
+    author: "Author",
+    dateNotSpecified: "Date not specified",
+    views: "views",
+    results: "results",
+    uzbekProjects: "Uzbek projects",
+    russianProjects: "Russian projects",
+    englishProjects: "English projects",
+    uzbekCyrProjects: "Uzbek projects (Cyrillic)",
+    uzbek: "Uzbek",
+    russian: "Russian",
+    english: "English",
+    uzbekCyr: "Uzbek (Cyr.)",
+  },
+  uzb_cyr: {
+    allProjects: "Барча лойиҳалар",
+    searchResults: "қидирув натижалари",
+    otherSearchResults: "Бошқа қидирув натижалари",
+    otherProjects: "Бошқа лойиҳалар",
+    noProjectsInLanguage: "Танланган тилда лойиҳалар ҳозирча мавжуд эмас. Барча мавжуд лойиҳалар кўрсатилмоқда.",
+    noResultsFound: "Натижа топилмади",
+    noProjectsForSearch: "сўрови бўйича ҳеч қандай лойиҳа топилмади.",
+    noProjectsAvailable: "Ҳеч қандай лойиҳа мавжуд эмас.",
+    information: "Маълумот",
+    readMore: "Батафсил ўқиш",
+    author: "Муаллиф",
+    dateNotSpecified: "Сана кўрсатилмаган",
+    views: "кўришлар",
+    results: "та натижа",
+    uzbekProjects: "Ўзбекча лойиҳалар",
+    russianProjects: "Русча лойиҳалар",
+    englishProjects: "Инглизча лойиҳалар",
+    uzbekCyrProjects: "Ўзбекча лойиҳалар",
+    uzbek: "Ўзбекча",
+    russian: "Русча",
+    english: "Инглизча",
+    uzbekCyr: "Ўзбекча",
+  },
+}
+
 export default function Project() {
   const [projects, setProjects] = useState<any[]>([])
   const [filteredProjects, setFilteredProjects] = useState<any[]>([])
@@ -32,6 +132,9 @@ export default function Project() {
   const langFilter = searchParams.get("lang")
   const { currentLanguage } = useLanguage()
   const router = useRouter()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const projectsRef = collection(db, "Projects")
@@ -101,7 +204,7 @@ export default function Project() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen ">
-        {/* <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />   */}
+        <Image src="/Qonuniy.svg" alt="Qonuniy logo" width={200} height={100} />
       </div>
     )
   }
@@ -116,19 +219,19 @@ export default function Project() {
   // Determine the page title based on filters
   const getPageTitle = () => {
     if (searchQuery) {
-      return `"${searchQuery}" qidiruv natijalari`
+      return `"${searchQuery}" ${t.searchResults}`
     } else if (langFilter) {
       const langName =
         {
-          uzb: "O'zbekcha",
-          rus: "Ruscha",
-          eng: "Inglizcha",
-          uzb_cyr: "Ўзбекча",
+          uzb: t.uzbekProjects,
+          rus: t.russianProjects,
+          eng: t.englishProjects,
+          uzb_cyr: t.uzbekCyrProjects,
         }[langFilter] || langFilter
 
-      return `${langName} loyihalar`
+      return `${langName}`
     }
-    return "Barcha loyihalar"
+    return t.allProjects
   }
 
   return (
@@ -137,28 +240,26 @@ export default function Project() {
         <h1 className="text-3xl font-bold mb-8 border-b pb-4">
           {getPageTitle()}
           {(searchQuery || langFilter) && (
-            <span className="ml-2 text-sm font-normal text-muted-foreground">({displayProjects.length} ta natija)</span>
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              ({displayProjects.length} {t.results})
+            </span>
           )}
         </h1>
 
         {!hasLanguageProjects && langFilter && (
           <Alert variant="info" className="mb-6">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Ma`lumot</AlertTitle>
-            <AlertDescription>
-              Tanlangan tilda loyihalar hozircha mavjud emas. Barcha mavjud loyihalar ko`rsatilmoqda.
-            </AlertDescription>
+            <AlertTitle>{t.information}</AlertTitle>
+            <AlertDescription>{t.noProjectsInLanguage}</AlertDescription>
           </Alert>
         )}
 
         {displayProjects.length === 0 ? (
           <Alert variant="warning">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>Natija topilmadi</AlertTitle>
+            <AlertTitle>{t.noResultsFound}</AlertTitle>
             <AlertDescription>
-              {searchQuery
-                ? `"${searchQuery}" so'rovi bo'yicha hech qanday loyiha topilmadi.`
-                : `Hech qanday loyiha mavjud emas.`}
+              {searchQuery ? `"${searchQuery}" ${t.noProjectsForSearch}` : t.noProjectsAvailable}
             </AlertDescription>
           </Alert>
         ) : (
@@ -168,7 +269,7 @@ export default function Project() {
             {otherProjects.length > 0 && (
               <div className="mt-12">
                 <h2 className="text-2xl font-bold mb-6 border-b pb-2">
-                  {searchQuery ? "Boshqa qidiruv natijalari" : langFilter ? "Boshqa loyihalar" : "Boshqa loyihalar"}
+                  {searchQuery ? t.otherSearchResults : t.otherProjects}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {otherProjects.map((project) => (
@@ -186,6 +287,10 @@ export default function Project() {
 
 function FeaturedProject({ project }: { project: any }) {
   const [hasTrackedView, setHasTrackedView] = useState(false)
+  const { currentLanguage } = useLanguage()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const trackView = async () => {
@@ -247,10 +352,10 @@ function FeaturedProject({ project }: { project: any }) {
   const getLanguageDisplay = (langCode: string) => {
     if (!langCode) return ""
 
-    if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
-    if (langCode === "rus" || langCode === "ru") return "Ruscha"
-    if (langCode === "eng" || langCode === "en") return "Inglizcha"
-    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
+    if (langCode === "uzb" || langCode === "uz") return t.uzbek
+    if (langCode === "rus" || langCode === "ru") return t.russian
+    if (langCode === "eng" || langCode === "en") return t.english
+    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return t.uzbekCyr
 
     return langCode
   }
@@ -263,15 +368,15 @@ function FeaturedProject({ project }: { project: any }) {
             <div className="order-2 md:order-1 flex flex-col justify-center p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Badge variant="outline" className="text-xs">
-                  {project.author || "Muallif"}
+                  {project.author || t.author}
                 </Badge>
                 <span className="text-xs text-muted-foreground">
-                  {project.date
-                    ? formatDistanceToNow(parseISO(project.date), { addSuffix: true })
-                    : "Sana ko`rsatilmagan"}
+                  {project.date ? formatDistanceToNow(parseISO(project.date), { addSuffix: true }) : t.dateNotSpecified}
                 </span>
                 <div className="flex items-center text-xs text-muted-foreground">
-                  <span className="ml-2">{project.views || 0} ko`rishlar</span>
+                  <span className="ml-2">
+                    {project.views || 0} {t.views}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center gap-2 mb-3">
@@ -281,10 +386,15 @@ function FeaturedProject({ project }: { project: any }) {
                   </Badge>
                 )}
               </div>
-              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#0099b5]  text-primary transition-colors">{project.title}</h2>
-              <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(project.content) }} />
+              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#0099b5] text-primary transition-colors">
+                {project.title}
+              </h2>
+              <div
+                className="text-muted-foreground text-sm mb-2"
+                dangerouslySetInnerHTML={{ __html: truncateContent(project.content) }}
+              />
               <div className="mt-4 inline-flex">
-                <span className="text-primary font-medium group-hover:underline">Batafsil o`qish</span>
+                <span className="text-primary font-medium group-hover:underline">{t.readMore}</span>
               </div>
             </div>
             <div className="order-1 md:order-2">{getMediaContent()}</div>
@@ -297,6 +407,10 @@ function FeaturedProject({ project }: { project: any }) {
 
 function ProjectCard({ project }: { project: any }) {
   const [hasTrackedView, setHasTrackedView] = useState(false)
+  const { currentLanguage } = useLanguage()
+
+  // Get translations for current language
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb
 
   useEffect(() => {
     const trackView = async () => {
@@ -362,10 +476,10 @@ function ProjectCard({ project }: { project: any }) {
   const getLanguageDisplay = (langCode: string) => {
     if (!langCode) return ""
 
-    if (langCode === "uzb" || langCode === "uz") return "O'zbekcha"
-    if (langCode === "rus" || langCode === "ru") return "Ruscha"
-    if (langCode === "eng" || langCode === "en") return "Inglizcha"
-    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return "Ўзбекча"
+    if (langCode === "uzb" || langCode === "uz") return t.uzbek
+    if (langCode === "rus" || langCode === "ru") return t.russian
+    if (langCode === "eng" || langCode === "en") return t.english
+    if (langCode === "uzb_cyr" || langCode === "uz_cyr") return t.uzbekCyr
 
     return langCode
   }
@@ -379,15 +493,15 @@ function ProjectCard({ project }: { project: any }) {
             <div className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="outline" className="text-xs">
-                  {project.author || "Muallif"}
+                  {project.author || t.author}
                 </Badge>
                 <span className="text-xs text-muted-foreground">
-                  {project.date
-                    ? formatDistanceToNow(parseISO(project.date), { addSuffix: true })
-                    : "Sana ko`rsatilmagan"}
+                  {project.date ? formatDistanceToNow(parseISO(project.date), { addSuffix: true }) : t.dateNotSpecified}
                 </span>
                 <div className="flex items-center text-xs text-muted-foreground">
-                  <span className="ml-2">{project.views || 0} ko`rishlar</span>
+                  <span className="ml-2">
+                    {project.views || 0} {t.views}
+                  </span>
                 </div>
               </div>
               {project.language && (
@@ -397,11 +511,14 @@ function ProjectCard({ project }: { project: any }) {
                   </Badge>
                 </div>
               )}
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-[#0099b5]  text-primary transition-colors line-clamp-2">
+              <h3 className="font-semibold text-lg mb-2 group-hover:text-[#0099b5] text-primary transition-colors line-clamp-2">
                 {project.title}
               </h3>
-              <div className="text-muted-foreground text-sm mb-2" dangerouslySetInnerHTML={{ __html: truncateContent(project.content) }} />
-              <div className="text-primary text-sm font-medium group-hover:underline">Batafsil o`qish</div>
+              <div
+                className="text-muted-foreground text-sm mb-2"
+                dangerouslySetInnerHTML={{ __html: truncateContent(project.content) }}
+              />
+              <div className="text-primary text-sm font-medium group-hover:underline">{t.readMore}</div>
             </div>
           </div>
         </CardContent>
