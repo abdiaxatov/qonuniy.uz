@@ -15,6 +15,8 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Twitter from "@mui/icons-material/Twitter";
+import { useLanguage } from "@/components/language-provider";
+
 const theme = createTheme({
   components: {
     MuiTooltip: {
@@ -31,12 +33,55 @@ const theme = createTheme({
   },
 });
 
-const actions = [
-  { icon: <Person />, name: "Portfolio" },
-  { icon: <Telegram />, name: "Telegram", url: "https://t.me/qonuniyuz_bot" },
-  { icon: <Email />, name: "Email", url: "mailto:abduaxatov007@gmail.com" },
-  {icon:<Twitter/>, name:"Twitter", url:"https://twitter.com/nurbek_abdiaxatov"},
-  { icon: <Phone />, name: "Telefon", url: "tel:+998940192117" },
+const translations = {
+  uzb: {
+    portfolio: "Portfolio",
+    telegram: "Telegram",
+    email: "Email",
+    twitter: "Twitter",
+    phone: "Telefon",
+    profileName: "Soburov Xasanjon Shavkatjon",
+    profileDescription: `Veb-sayt egasi Soburov Xasanjon Shavkatjon o'g'li - huquq magistri, 3-darajali yurist. Sud va adliya organlarida faoliyat olib borgan. Barcha huquqiy masalalarda yuridik yordam xizmati mavjud. Telefon: `,
+    close: "Yopish",
+  },
+  rus: {
+    portfolio: "Портфолио",
+    telegram: "Телеграм",
+    email: "Электронная почта",
+    twitter: "Твиттер",
+    phone: "Телефон",
+    profileName: "Собуров Хасанжон Шавкатжон",
+    profileDescription: `Владелец сайта Собуров Хасанжон Шавкатжонович o'gli - магистр права, юрист третьего уровня. Работал в судах и органах юстиции. Оказывает юридическую помощь по всем правовым вопросам. Телефон: `,
+    close: "Закрыть",
+  },
+  eng: {
+    portfolio: "Portfolio",
+    telegram: "Telegram",
+    email: "Email",
+    twitter: "Twitter",
+    phone: "Phone",
+    profileName: "Soburov Xasanjon Shavkatjon",
+    profileDescription: `The owner of the website, Hasanjon Shavkatjonovich Soburov o'gli, holds a master's degree in law and is a third-level lawyer. He has worked in courts and justice bodies. Legal assistance is available for all legal matters. Phone: `,
+    close: "Close",
+  },
+  uzb_cyr: {
+    portfolio: "Портфолио",
+    telegram: "Телеграм",
+    email: "Электрон почта",
+    twitter: "Твиттер",
+    phone: "Телефон",
+    profileName: "Собуров Хасанжон Шавкатжонович",
+    profileDescription: `Веб-сайт эгаси Собуров Хасанжон Шавкатжонович - ҳуқуқ магистри, 3-даражали юрист. Суд ва адлия органларида фаолият олиб борган. Барча ҳуқуқий масалаларда юридик ёрдам хизмати мавжуд. Телефон: `,
+    close: "Ёпиш",
+  },
+};
+
+const actions = (t: any) => [
+  { icon: <Person />, name: t.portfolio },
+  { icon: <Telegram />, name: t.telegram, url: "https://t.me/qonuniyuz_bot" },
+  { icon: <Email />, name: t.email, url: "mailto:qonuniy.uz@gmail.com" },
+  { icon: <Twitter />, name: t.twitter, url: "https://twitter.com/qonuniy.uz" },
+  { icon: <Phone />, name: t.phone, url: "tel:+998337923192" },
 ];
 
 const style = {
@@ -54,6 +99,9 @@ const style = {
 };
 
 export default function CustomSpeedDial() {
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage.code as keyof typeof translations] || translations.uzb;
+
   const [isVisible, setIsVisible] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
@@ -62,15 +110,6 @@ export default function CustomSpeedDial() {
 
   const handleClick = () => {
     setIsVisible((prev) => !prev);
-  };
-
-  const handleDownload = (url: string) => {
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = url.split("/").pop() || "";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -98,7 +137,7 @@ export default function CustomSpeedDial() {
             onClick={handleClick}
             open={isVisible}
           >
-            {actions.map((action) => (
+            {actions(t).map((action) => (
               <SpeedDialAction
                 key={action.name}
                 icon={action.icon}
@@ -110,7 +149,7 @@ export default function CustomSpeedDial() {
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (action.name === "Portfolio") {
+                  if (action.name === t.portfolio) {
                     handleOpen();
                   } else if (action.url) {
                     window.open(action.url, "_blank");
@@ -120,17 +159,25 @@ export default function CustomSpeedDial() {
             ))}
           </SpeedDial>
         </Box>
-        <Modal open={isModalOpen} onClose={handleClose} >
+        <Modal open={isModalOpen} onClose={handleClose}>
           <Box sx={style} className="rounded-xl border">
-            <Avatar alt="Profil rasmi" src="/profile.jpg" sx={{ width: 80, height: 80, mb: 2 }} />
+            <Avatar alt="Profil rasmi" src="/Avatat.jpg" sx={{ width: 80, height: 80, mb: 2 }} />
             <Typography variant="h6" component="h2">
-              Abdiaxatov
+              {t.profileName}
             </Typography>
             <Typography sx={{ mt: 2 }}>
-              Frontend va backend texnologiyalarda tajribaga ega Full Stack dasturchi.
+              {t.profileDescription}
+              <a href="tel:+998337923192" className="underline">
+                +998 (33) 792-31-92
+              </a>
+              ,{" "}
+              <a href="tel:+998917453192" className="underline">
+                +998 (91) 745-31-92
+              </a>
+              .
             </Typography>
             <Button onClick={handleClose} sx={{ mt: 2 }} variant="contained" color="primary">
-              Close
+              {t.close}
             </Button>
           </Box>
         </Modal>
