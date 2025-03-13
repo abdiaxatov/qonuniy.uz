@@ -145,7 +145,7 @@ export default function ArticlePage() {
 
         <article className="max-w-4xl mx-auto">
           <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[#0099b5]">{article.title}</h1>
 
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <Badge variant="outline">{article.author || "Muallif"}</Badge>
@@ -251,7 +251,7 @@ export default function ArticlePage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="font-semibold group-hover:text-primary text-[#0099b5] transition-colors line-clamp-2">
                       {relatedArticle.title}
                     </h3>
                     <div className="flex items-center text-xs text-muted-foreground mt-2">

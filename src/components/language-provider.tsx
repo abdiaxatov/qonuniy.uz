@@ -16,10 +16,10 @@ type LanguageContextType = {
 }
 
 const languages: Language[] = [
-  { code: "uzb", fullName: "O'zbekiston", abbr: "UZB" },
+  { code: "uzb", fullName: "O'zbekcha", abbr: "UZB" },
   { code: "rus", fullName: "Русский", abbr: "РУС" },
   { code: "eng", fullName: "English", abbr: "ENG" },
-  { code: "uzb_cyr", fullName: "Ўзбекистон", abbr: "ЎЗБ" },
+  { code: "uzb_cyr", fullName: "Ўзбекча", abbr: "ЎЗБ" },
 ]
 
 // Language code mapping for compatibility with different formats

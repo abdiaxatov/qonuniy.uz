@@ -149,7 +149,7 @@ export default function ProjectPage() {
 
         <article className="max-w-4xl mx-auto">
           <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{project.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4  text-[#0099b5]">{project.title}</h1>
 
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <Badge variant="outline">{project.author || "Muallif"}</Badge>
@@ -236,7 +236,7 @@ export default function ProjectPage() {
           )}
 
           {/* Content Section */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
+          <div className="prose prose-lg dark:prose-invert max-w-none ">
             <div dangerouslySetInnerHTML={{ __html: project.content }} />
           </div>
 
